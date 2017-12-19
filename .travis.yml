@@ -1,0 +1,10 @@
+osx_image: xcode9.2
+language: objective-c
+script:
+- pod install --project-directory=Example
+- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/HDBubbleTransition.xcworkspace -scheme HDBubbleTransition-Example -sdk iphonesimulator11.2 -destination 'platform=iOS Simulator,name=iPhone 6,OS=11.2' ONLY_ACTIVE_ARCH=NO | xcpretty
+- pod lib lint
+notifications:
+  email: false
+  slack:
+    secure: ZieyPxpdsokrDfwgpqHeC/LYVjVCPNrKkJBLMW6ZsaxpWvKZSKvraHMZ8pCGEOmJ0Z0ltDLlPDDcKHz/8Gp82Ra5knCNMjVG+KjVMMaA0q6wAGRrVEXfgyIj3k+DzhCFe9c0+UjYbabHLrG9Y3fuOURevJdK6YfBQx4KrwBYaZBHj2Eq3YvVHczoKJ00KrtYtt4/4kedSOOK6dCJHFFbn60BhcOR22J1y/oSC/r0AqO13/Gp1xVFT9n3YJr2nueRaioOJXvULNESNZyCbToHwhUXWKrPfYlF33QjN64A9E4jELz1sxPKS2A/jgFX0xmWFcbl9mQypgJMPLu2Gjv7/Ai8YYAmY/1EnffDiD+10h4eqkzLs52WdaV7wVP0K93mx6vsGcTJnjNGumTUAJYOwby1ZI565WmN6F5G1fIO2XVjXDISYxnps58VsDyFJ2ljmqvFtkv6PFXyEyDemm0Ug8p6pvnbK0BM3vn2MS6vqc2rB6JiLM5JZ2RP6+kEXFStSDZ2yzA8Pj8yPmo3tmM49leoQtGh2WNvH7vZnKw/kuAXAL2fJRSqA2/zczRir+Dz9pGBgNBL8Oc2G9ip8qE6WlDwdeEIBLJa2crL//vavqsJ3y3NK8vtk0selBhMlFXUFEh2LWuZ8a0265vRxUZaDm5kEHzfy++aUbBEms4IWis=

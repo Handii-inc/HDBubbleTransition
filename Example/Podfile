@@ -1,0 +1,10 @@
+use_frameworks!
+
+target 'HDBubbleTransition_Example' do
+  pod 'HDBubbleTransition', :path => '../'
+
+  target 'HDBubbleTransition_Tests' do
+    pod 'HDBubbleTransition', :path => '../'
+    pod 'Quick'
+  end
+end
