@@ -1,24 +1,48 @@
-//
-//  ViewController.swift
-//  HDBubbleTransition
-//
-//  Created by IgnorantCoder on 12/18/2017.
-//  Copyright (c) 2017 IgnorantCoder. All rights reserved.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
+    private lazy var backGround: UIView = {
+        let view = UIView()
+        view.backgroundColor = .purple
+        return view
+    }()
 
+    private lazy var button: UIButton = {
+        let button = UIButton(type: .roundedRect)
+        button.addTarget(self,
+                         action: #selector(self.trantision(sender:)),
+                         for: .touchUpInside)
+        button.backgroundColor = .white
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.view.addSubview(self.backGround)
+        self.view.addSubview(self.button)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillLayoutSubviews() {
+        self.backGround.frame = UIScreen.main.bounds
+        
+        let diameter: CGFloat = 50
+        let gapFromBottom: CGFloat = self.backGround.frame.height * 0.25
+        self.button.frame = CGRect(x: (self.backGround.frame.width - diameter) * 0.5,
+                                   y: self.backGround.frame.height - diameter - gapFromBottom,
+                                   width: diameter,
+                                   height: diameter)
+        self.button.layer.cornerRadius = diameter * 0.5
+        
+        return
     }
-
+    
+    @objc private func trantision(sender: UIButton)
+    {
+        if sender.isEqual(self.button) {
+            let controller = AnimationTransitionViewController(appearFrom: self.button.center)
+            self.present(controller, animated: true)
+        }
+        return
+    }
 }
 
