@@ -5,9 +5,8 @@ import Foundation
  */
 class Present: TransitionMode {
     public func accept(_ visitor: TransitionModeVisitor,
-                in transitionContext: UIViewControllerContextTransitioning)
+                       in transitionContext: UIViewControllerContextTransitioning)
     {
         visitor.transition(at: self, in: transitionContext)
-        return
     }
 }

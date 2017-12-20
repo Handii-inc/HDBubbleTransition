@@ -4,6 +4,7 @@
 [![Version](https://img.shields.io/cocoapods/v/HDBubbleTransition.svg?style=flat)](http://cocoapods.org/pods/HDBubbleTransition)
 [![License](https://img.shields.io/cocoapods/l/HDBubbleTransition.svg?style=flat)](http://cocoapods.org/pods/HDBubbleTransition)
 [![Platform](https://img.shields.io/cocoapods/p/HDBubbleTransition.svg?style=flat)](http://cocoapods.org/pods/HDBubbleTransition)
+[![codebeat badge](https://codebeat.co/badges/60741d13-4fdb-4513-ace5-784b48164a60)](https://codebeat.co/projects/github-com-handii-inc-hdbubbletransition-master)
 
 ## Description
 
