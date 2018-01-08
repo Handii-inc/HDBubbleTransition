@@ -10,7 +10,7 @@ class ViewController: UIViewController {
     private lazy var button: UIButton = {
         let button = UIButton(type: .roundedRect)
         button.addTarget(self,
-                         action: #selector(self.trantision(sender:)),
+                         action: #selector(self.transition(sender:)),
                          for: .touchUpInside)
         button.backgroundColor = .white
         return button
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         return
     }
     
-    @objc private func trantision(sender: UIButton)
+    @objc private func transition(sender: UIButton)
     {
         if sender.isEqual(self.button) {
             let controller = AnimationTransitionViewController(appearFrom: self.button.center)

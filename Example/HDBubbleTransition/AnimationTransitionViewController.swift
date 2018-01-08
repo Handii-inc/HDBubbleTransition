@@ -13,7 +13,7 @@ class AnimationTransitionViewController: UIViewController, UIViewControllerTrans
     private lazy var button: UIButton = {
         let button = UIButton(type: .roundedRect)
         button.addTarget(self,
-                         action: #selector(self.trantision(sender:)),
+                         action: #selector(self.transition(sender:)),
                          for: .touchUpInside)
         button.backgroundColor = .purple
         return button
@@ -50,7 +50,7 @@ class AnimationTransitionViewController: UIViewController, UIViewControllerTrans
         return
     }
     
-    @objc private func trantision(sender: UIButton)
+    @objc private func transition(sender: UIButton)
     {
         if sender.isEqual(self.button) {
             self.dismiss(animated: true)
