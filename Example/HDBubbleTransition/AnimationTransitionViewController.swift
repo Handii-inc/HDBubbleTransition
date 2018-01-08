@@ -64,18 +64,18 @@ class AnimationTransitionViewController: UIViewController, UIViewControllerTrans
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning?
     {
-        return HDBubbleTransition.appear(from: self.appearFrom,
+        return HDBubbleTransition.colored(self.backGround.backgroundColor ?? .clear)
+                                 .appear(from: self.appearFrom,
                                          in: self.view.frame,
-                                         with: 0.5,
-                                         colored: self.backGround.backgroundColor ?? .clear)
+                                         with: 0.5)
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning?
     {
-        return HDBubbleTransition.disappear(to: self.button.center,
+        return HDBubbleTransition.colored(self.backGround.backgroundColor ?? .clear)
+                                 .disappear(to: self.button.center,
                                             in: self.view.frame,
-                                            with: 0.5,
-                                            colored: self.backGround.backgroundColor ?? .clear)
+                                            with: 0.5)
     }
 
 

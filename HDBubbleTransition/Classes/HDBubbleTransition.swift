@@ -27,40 +27,49 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
     }()
 
     //MARK:- Initializer
-    /**
-     Create instance for presentation implementation
-     - Parameters:
-        - from: appear from this input
-        - in: display bounds
-        - with: duration of animating
-        - colored: color of bubble
-     */
-    public static func appear(from center: CGPoint,
+    public static func colored(_ bubbleColor: UIColor) -> Builder
+    {
+        return Builder(bubbleColor: bubbleColor)
+    }
+    
+    public class Builder {
+        private let bubbleColor: UIColor
+        
+        init(bubbleColor: UIColor) {
+            self.bubbleColor = bubbleColor
+        }
+        
+        /**
+         Create instance for presentation implementation
+         - Parameters:
+             - from: appear from this input
+             - in: display bounds
+             - with: duration of animating
+         */
+        public func appear(from center: CGPoint,
+                           in bounds: CGRect,
+                           with duration: Double) -> UIViewControllerAnimatedTransitioning
+        {
+            return HDBubbleTransition(transition: (Present(), duration),
+                                      bubbleStyle: (bounds.size, center, self.bubbleColor))
+        }
+
+        /**
+         Create instance for dismiss implementation
+         - Parameters:
+             - to: disappear to this input
+             - in: display bounds
+             - with: duration of animating
+         */
+        public func disappear(to center: CGPoint,
                               in bounds: CGRect,
-                              with withDuration: Double,
-                              colored bubbleColor: UIColor) -> UIViewControllerAnimatedTransitioning
-    {
-        return HDBubbleTransition(transition: (Present(), withDuration),
-                                  bubbleStyle: (bounds.size, center, bubbleColor))
+                              with duration: Double) -> UIViewControllerAnimatedTransitioning
+        {
+            return HDBubbleTransition(transition: (Dismiss(), duration),
+                                      bubbleStyle: (bounds.size, center, self.bubbleColor))
+        }
     }
-
-    /**
-     Create instance for dismiss implementation
-     - Parameters:
-         - to: disappear to this input
-         - in: display bounds
-         - with: duration of animating
-         - colored: color of bubble
-     */
-    public static func disappear(to center: CGPoint,
-                                 in bounds: CGRect,
-                                 with withDuration: Double,
-                                 colored bubbleColor: UIColor) -> UIViewControllerAnimatedTransitioning
-    {
-        return HDBubbleTransition(transition: (Dismiss(), withDuration),
-                                  bubbleStyle: (bounds.size, center, bubbleColor))
-    }
-
+    
     private init(transition: (TransitionMode, TimeInterval),
                  bubbleStyle: (CGSize, CGPoint, UIColor))
     {
