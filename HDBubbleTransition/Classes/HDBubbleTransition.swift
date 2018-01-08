@@ -25,9 +25,7 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
     private lazy var diameterOfBubble: CGFloat = {
         return self.radiusOfBubble * 2
     }()
-    
-    private static let miniSize: CGAffineTransform = CGAffineTransform(scaleX: 0.001, y: 0.001)
-    
+
     //MARK:- Initializer
     /**
      Create instance for presentation implementation
@@ -103,7 +101,11 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
             return
         }
         
-        let bubble = createBubble(with: HDBubbleTransition.miniSize)
+        let bubble : UIView = {
+            let view = createBubble()
+            Transform.minify(view)
+            return view
+        }()
 
         SubViewsManager.setSubViews(views: views, bubble: bubble, at: mode)
 
@@ -210,13 +212,6 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
         return view
     }
     
-    private func createBubble(with transform: CGAffineTransform) -> UIView
-    {
-        let view = createBubble()
-        view.transform = transform
-        return view
-    }
-    
     private class SubViewsManager {
         static func setSubViews(views: ViewAdapter,
                                 bubble: UIView,
@@ -241,7 +236,7 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
                          at _: Present)
     {
         toView.center = self.bubbleCenter
-        toView.transform = HDBubbleTransition.miniSize
+        Transform.minify(toView)
         toView.alpha = 0
     }
     
@@ -252,10 +247,9 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
         {
             return {
                 view.center = center
-                view.transform = CGAffineTransform.identity
                 view.alpha = 1
-                
-                bubble.transform = .identity
+                Transform.origin(view)
+                Transform.origin(bubble)
             }
         }
         
@@ -265,10 +259,10 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
         {
             return {
                 view.center = center
-                view.transform = HDBubbleTransition.miniSize
                 view.alpha = 0
-                
-                bubble.transform = HDBubbleTransition.miniSize
+                Transform.minify(view)
+
+                Transform.minify(bubble)
             }
         }
     }
@@ -281,6 +275,18 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
             
             transitionContext.viewController(forKey: .to)?.endAppearanceTransition()
             transitionContext.completeTransition(true)
+        }
+    }
+    
+    private class Transform {
+        static func minify(_ target: UIView) {
+            target.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+            return
+        }
+        
+        static func origin(_ target: UIView) {
+            target.transform = .identity
+            return
         }
     }
 }
