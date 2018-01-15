@@ -15,6 +15,7 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
     private let duration: TimeInterval
     private let bubbleCenter: CGPoint
     private let bubbleColor: UIColor
+    private let bubbleBorderColor: UIColor
     
     private lazy var radiusOfBubble: CGFloat = {
         let lengthOfXAxis: CGFloat = max(self.bubbleCenter.x, self.boundSize.width - self.bubbleCenter.x)
@@ -31,12 +32,25 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
     {
         return Builder(bubbleColor: bubbleColor)
     }
+
+    public static func colored(_ color: (bubble: UIColor, border: UIColor)) -> Builder
+    {
+        return Builder(bubbleColor: color.bubble, bubbleBorderColor: color.border)
+    }
     
     public class Builder {
         private let bubbleColor: UIColor
+        private let bubbleBorderColor: UIColor
         
-        init(bubbleColor: UIColor) {
+        init(bubbleColor: UIColor,
+             bubbleBorderColor: UIColor) {
             self.bubbleColor = bubbleColor
+            self.bubbleBorderColor = bubbleBorderColor
+        }
+
+        convenience init(bubbleColor: UIColor) {
+            self.init(bubbleColor: bubbleColor,
+                      bubbleBorderColor: bubbleColor)
         }
         
         /**
@@ -51,7 +65,10 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
                            with duration: Double) -> UIViewControllerAnimatedTransitioning
         {
             return HDBubbleTransition(transition: (Present(), duration),
-                                      bubbleStyle: (bounds.size, center, self.bubbleColor))
+                                      bubbleStyle: (bounds.size,
+                                                    center,
+                                                    self.bubbleColor,
+                                                    self.bubbleBorderColor))
         }
 
         /**
@@ -66,15 +83,18 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
                               with duration: Double) -> UIViewControllerAnimatedTransitioning
         {
             return HDBubbleTransition(transition: (Dismiss(), duration),
-                                      bubbleStyle: (bounds.size, center, self.bubbleColor))
+                                      bubbleStyle: (bounds.size,
+                                                    center,
+                                                    self.bubbleColor,
+                                                    self.bubbleBorderColor))
         }
     }
     
     private init(transition: (TransitionMode, TimeInterval),
-                 bubbleStyle: (CGSize, CGPoint, UIColor))
+                 bubbleStyle: (CGSize, CGPoint, UIColor, UIColor))
     {
         (self.mode, self.duration) = transition
-        (self.boundSize, self.bubbleCenter, self.bubbleColor) = bubbleStyle
+        (self.boundSize, self.bubbleCenter, self.bubbleColor, self.bubbleBorderColor) = bubbleStyle
     }
     
     //MARK:- UIViewControllerAnimatedTransitioning
@@ -217,6 +237,8 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
                                          height: self.diameterOfBubble))
         view.center = self.bubbleCenter
         view.layer.cornerRadius = self.radiusOfBubble
+        view.layer.borderWidth = 1
+        view.layer.borderColor = self.bubbleBorderColor.cgColor
         view.backgroundColor = self.bubbleColor
         return view
     }
@@ -282,7 +304,6 @@ open class HDBubbleTransition: NSObject, UIViewControllerAnimatedTransitioning, 
             bubble.removeFromSuperview()
             transitionContext.view(forKey: .from)?.removeFromSuperview()
             
-            transitionContext.viewController(forKey: .to)?.endAppearanceTransition()
             transitionContext.completeTransition(true)
         }
     }

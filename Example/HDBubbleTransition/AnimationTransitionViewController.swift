@@ -64,7 +64,7 @@ class AnimationTransitionViewController: UIViewController, UIViewControllerTrans
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning?
     {
-        return HDBubbleTransition.colored(self.backGround.backgroundColor ?? .clear)
+        return HDBubbleTransition.colored((bubble: self.backGround.backgroundColor ?? .clear, border: .black))
                                  .appear(from: self.appearFrom,
                                          in: self.view.frame,
                                          with: 0.5)
